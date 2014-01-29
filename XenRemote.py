@@ -16,7 +16,7 @@ class Vmcontrol(object):
         vms = self.session.xenapi.VM.get_all()
         for vm in vms:
             record = self.session.xenapi.VM.get_record(vm)
-            if not(record["is_a_template"]) and not(record["is_control_domain"]):
+            if not record["is_a_template"] and not record["is_control_domain"]:
                 print(record["uuid"] + " - " + record["name_label"] + " - " + record["power_state"])
 
     def get_running_vm_list(self):

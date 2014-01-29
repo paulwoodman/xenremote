@@ -58,7 +58,7 @@ while(True):
 
     # show help options
     elif(action=='help'):
-        print '''available commands:\nstart, shutdown, suspend, status, help, exit\n'''
+        print("available commands:\nstart, shutdown, suspend, status, help, exit\n")
 
     # exit the program
     elif(action=='exit'):

@@ -63,8 +63,7 @@ class Vmcontrol(object):
         """
         Returns the current power_state of a VM by UUID
         """
-        record = self.session.xenapi.VM.get_record(self.session.xenapi.VM.get_by_uuid(uuid))
-        return record["power_state"]
+        return self.session.xenapi.VM.get_power_state(self.session.xenapi.VM.get_by_uuid(uuid))
 
     def shutdown_vm_by_uuid(self, uuid):
         """

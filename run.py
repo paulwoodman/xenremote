@@ -70,7 +70,7 @@ while(True):
     # show help options
     elif(action=='help'):
         print("XenRemote (C) 2014 W. Babernits <wbabernits@onenext.de>\n")
-        print("available commands:\nstart, shutdown, suspend, status, help, version, exit\n")
+        print("available commands:\nstart, shutdown, suspend, pause, status, help, version, exit\n")
 
     # print xenremote version
     elif(action=='version'):

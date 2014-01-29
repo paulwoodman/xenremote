@@ -13,14 +13,10 @@ name = 'xenremote'
 version = '0.0.1'
 level = 'alpha'
 
-# Lese Konfiguration
 conf = ConfigObj("xenremote.conf")
 
-# Verbindung zum XenServer Host herstellen und Session initialisieren
 session = XenAPI.Session(conf["url"])
 session.xenapi.login_with_password(conf["user"], conf["pass"])
-
-# Initialisieren der XenRemote Klasse
 remote = XenRemote.Vmcontrol(session)
 
 while(True):
@@ -76,7 +72,7 @@ while(True):
         else:
             print('vm cannot be unpaused')
 
-    # show all virtual machines
+    # show the status of all virtual machines
     elif(action=='status'):
         remote.get_vm_status_list()
 
@@ -88,7 +84,7 @@ while(True):
     elif(action=='version'):
         print(name + "/" + version + "-" + level)
 
-    # exit the program
+    # exit program
     elif(action=='exit'):
         print('program terminated by user')
         exit()

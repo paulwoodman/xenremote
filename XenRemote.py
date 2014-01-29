@@ -1,20 +1,17 @@
-# XenServer XAPI CL interface
+# XenServer XAPI CL interface class
 #
 # (C) 2014 Wilhelm Babernits <wbabernits@onenext.de>
-# Steuert XenServer ueber die verfuegbare XAPI und verwendet die XenAPI Klasse
-# um darauf zuzugreifen
 
 import time
 
 
-# Kontrolliert die virtuellen Maschinen und liest Informationen aus
 class Vmcontrol(object):
     def __init__(self, session):
         self.session = session
 
     def get_vm_status_list(self):
         """
-        Holt eine Liste aller verfuegbaren VMs der Session vom XenServer Host und gibt die UUID sowie den Status aus
+        Get current power_state and UUIDs of all VMs
         """
         vms = self.session.xenapi.VM.get_all()
         for vm in vms:
@@ -24,7 +21,7 @@ class Vmcontrol(object):
 
     def get_running_vm_list(self):
         """
-        Holt eine Liste aller laufenden VMs der Session vom XenServer Host und gibt die UUID sowie den Status aus
+        Get running VMs
         """
         vms = self.session.xenapi.VM.get_all()
         for vm in vms:
@@ -34,7 +31,7 @@ class Vmcontrol(object):
 
     def get_halted_vm_list(self):
         """
-        Holt eine Liste aller laufenden VMs der Session vom XenServer Host und gibt die UUID sowie den Status aus
+        Get halted VMs
         """
         vms = self.session.xenapi.VM.get_all()
         for vm in vms:
@@ -44,7 +41,7 @@ class Vmcontrol(object):
 
     def get_suspended_vm_list(self):
         """
-        Holt eine Liste aller laufenden VMs der Session vom XenServer Host und gibt die UUID sowie den Status aus
+        Get suspended VMs
         """
         vms = self.session.xenapi.VM.get_all()
         for vm in vms:
@@ -54,7 +51,7 @@ class Vmcontrol(object):
 
     def get_paused_vm_list(self):
         """
-        Holt eine Liste aller laufenden VMs der Session vom XenServer Host und gibt die UUID sowie den Status aus
+        Get paused VMs
         """
         vms = self.session.xenapi.VM.get_all()
         for vm in vms:
@@ -64,17 +61,14 @@ class Vmcontrol(object):
 
     def get_vm_status_by_uuid(self, uuid):
         """
-        Gibt den aktuellen Status der VM anhand der UUID zurueck
-        @param uuid:
-        @return:
+        Returns the current power_state of a VM by UUID
         """
         record = self.session.xenapi.VM.get_record(self.session.xenapi.VM.get_by_uuid(uuid))
         return record["power_state"]
 
     def shutdown_vm_by_uuid(self, uuid):
         """
-        Stoppt eine VM anhand der UUID
-        @param uuid:
+        Stops a VM
         """
         vm = self.session.xenapi.VM.get_by_uuid(uuid)
         record = self.session.xenapi.VM.get_record(vm)
@@ -95,8 +89,7 @@ class Vmcontrol(object):
 
     def start_vm_by_uuid(self, uuid):
         """
-        Startet eine VM anhand der UUID
-        @param uuid:
+        Starts a VM
         """
         vm = self.session.xenapi.VM.get_by_uuid(uuid)
         record = self.session.xenapi.VM.get_record(vm)
@@ -114,8 +107,7 @@ class Vmcontrol(object):
 
     def suspend_vm_by_uuid(self, uuid):
         """
-        Schickt eine VM anhand der UUID in den Schlafzustand
-        @param uuid:
+        Suspend a VM
         """
         vm = self.session.xenapi.VM.get_by_uuid(uuid)
         record = self.session.xenapi.VM.get_record(vm)
@@ -129,8 +121,7 @@ class Vmcontrol(object):
 
     def pause_vm_by_uuid(self, uuid):
         """
-        Pausiert eine VM anhand der UUID
-        @param uuid:
+        Pause a VM
         """
         vm = self.session.xenapi.VM.get_by_uuid(uuid)
         record = self.session.xenapi.VM.get_record(vm)
@@ -147,8 +138,7 @@ class Vmcontrol(object):
 
     def unpause_vm_by_uuid(self, uuid):
         """
-        Unterbricht die Pause einer VM anhand der UUID
-        @param uuid:
+        Unpause a VM
         """
         vm = self.session.xenapi.VM.get_by_uuid(uuid)
         record = self.session.xenapi.VM.get_record(vm)
@@ -160,7 +150,7 @@ class Vmcontrol(object):
         else:
             return False
 
-# Steuert den XenServer Host
+# For future purpose
 class Hostcontrol(object):
     def __init__(self, session):
         self.session = session

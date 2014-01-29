@@ -7,6 +7,7 @@
 import XenAPI
 import XenRemote
 from configobj import ConfigObj
+import pprint
 
 
 # Lese Konfiguration
@@ -52,13 +53,31 @@ while(True):
         else:
             print('vm cannot be suspended')
 
+    # pause a virtual machine
+    elif(action=='pause'):
+        remote.get_running_vm_list()
+        uuid = raw_input('uuid >> ')
+        if(remote.pause_vm_by_uuid(uuid)):
+            print('vm paused')
+        else:
+            print('vm cannot be paused')
+
+    # unpause a virtual machine
+    elif(action=='unpause'):
+        remote.get_paused_vm_list()
+        uuid = raw_input('uuid >> ')
+        if(remote.unpause_vm_by_uuid(uuid)):
+            print('vm unpaused')
+        else:
+            print('vm cannot be unpaused')
+
     # show all virtual machines
     elif(action=='status'):
         remote.get_vm_status_list()
 
     # show help options
     elif(action=='help'):
-        print("available commands:\nstart, shutdown, suspend, status, help, exit\n")
+        print("XenRemote (C) 2014 W. Babernits <wbabernits@onenext.de>\n\navailable commands:\nstart, shutdown, suspend, status, help, exit\n")
 
     # exit the program
     elif(action=='exit'):

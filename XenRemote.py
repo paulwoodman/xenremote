@@ -52,6 +52,16 @@ class Vmcontrol(object):
             if (not record["is_a_template"] and not record["is_control_domain"]) and record["power_state"]=="Suspended":
                 print(record["uuid"] + " - " + record["name_label"] + " - " + record["power_state"])
 
+    def get_paused_vm_list(self):
+        """
+        Holt eine Liste aller laufenden VMs der Session vom XenServer Host und gibt die UUID sowie den Status aus
+        """
+        vms = self.session.xenapi.VM.get_all()
+        for vm in vms:
+            record = self.session.xenapi.VM.get_record(vm)
+            if (not record["is_a_template"] and not record["is_control_domain"]) and record["power_state"]=="Paused":
+                print(record["uuid"] + " - " + record["name_label"] + " - " + record["power_state"])
+
     def get_vm_status_by_uuid(self, uuid):
         """
         Gibt den aktuellen Status der VM anhand der UUID zurueck
@@ -113,6 +123,39 @@ class Vmcontrol(object):
             self.session.xenapi.VM.suspend(vm)
 
         if(self.get_vm_status_by_uuid(uuid)=="Suspended"):
+            return True
+        else:
+            return False
+
+    def pause_vm_by_uuid(self, uuid):
+        """
+        Pausiert eine VM anhand der UUID
+        @param uuid:
+        """
+        vm = self.session.xenapi.VM.get_by_uuid(uuid)
+        record = self.session.xenapi.VM.get_record(vm)
+        if record["power_state"] == "Running":
+            self.session.xenapi.VM.pause(vm)
+        elif record["power_state"] == "Suspended":
+            self.session.xenapi.VM.resume(vm, False, True)
+            self.session.xenapi.VM.pause(vm)
+
+        if(self.get_vm_status_by_uuid(uuid)=="Paused"):
+            return True
+        else:
+            return False
+
+    def unpause_vm_by_uuid(self, uuid):
+        """
+        Unterbricht die Pause einer VM anhand der UUID
+        @param uuid:
+        """
+        vm = self.session.xenapi.VM.get_by_uuid(uuid)
+        record = self.session.xenapi.VM.get_record(vm)
+        if record["power_state"] == "Paused":
+            self.session.xenapi.VM.unpause(vm)
+
+        if(self.get_vm_status_by_uuid(uuid)=="Running"):
             return True
         else:
             return False

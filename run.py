@@ -63,22 +63,14 @@ while(True):
         else:
             print('vm cannot be paused')
 
-    # unpause a virtual machine
-    elif(action=='unpause'):
-        remote.get_paused_vm_list()
-        uuid = raw_input('uuid >> ')
-        if(remote.unpause_vm_by_uuid(uuid)):
-            print('vm unpaused')
-        else:
-            print('vm cannot be unpaused')
-
     # show the status of all virtual machines
     elif(action=='status'):
         remote.get_vm_status_list()
 
     # show help options
     elif(action=='help'):
-        print("XenRemote (C) 2014 W. Babernits <wbabernits@onenext.de>\n\navailable commands:\nstart, shutdown, suspend, status, help, version, exit\n")
+        print("XenRemote (C) 2014 W. Babernits <wbabernits@onenext.de>\n")
+        print("available commands:\nstart, shutdown, suspend, status, help, version, exit\n")
 
     # print xenremote version
     elif(action=='version'):
@@ -88,3 +80,7 @@ while(True):
     elif(action=='exit'):
         print('program terminated by user')
         exit()
+
+    # unknown command
+    else:
+        print('unknown command: type help for a list of available commands')

@@ -82,7 +82,7 @@ class Vmcontrol(object):
         elif record["power_state"] == "Running":
             self.session.xenapi.VM.clean_shutdown(vm)
 
-        if(self.get_vm_status_by_uuid(uuid)=="Halted"):
+        if self.get_vm_status_by_uuid(uuid)=="Halted":
             return True
         else:
             return False
@@ -100,7 +100,7 @@ class Vmcontrol(object):
         elif record["power_state"] == "Halted":
             self.session.xenapi.VM.start(vm, False, True)
 
-        if(self.get_vm_status_by_uuid(uuid)=="Running"):
+        if self.get_vm_status_by_uuid(uuid)=="Running":
             return True
         else:
             return False
@@ -114,7 +114,7 @@ class Vmcontrol(object):
         if record["power_state"] == "Running":
             self.session.xenapi.VM.suspend(vm)
 
-        if(self.get_vm_status_by_uuid(uuid)=="Suspended"):
+        if self.get_vm_status_by_uuid(uuid)=="Suspended":
             return True
         else:
             return False
@@ -131,21 +131,7 @@ class Vmcontrol(object):
             self.session.xenapi.VM.resume(vm, False, True)
             self.session.xenapi.VM.pause(vm)
 
-        if(self.get_vm_status_by_uuid(uuid)=="Paused"):
-            return True
-        else:
-            return False
-
-    def unpause_vm_by_uuid(self, uuid):
-        """
-        Unpause a VM
-        """
-        vm = self.session.xenapi.VM.get_by_uuid(uuid)
-        record = self.session.xenapi.VM.get_record(vm)
-        if record["power_state"] == "Paused":
-            self.session.xenapi.VM.unpause(vm)
-
-        if(self.get_vm_status_by_uuid(uuid)=="Running"):
+        if self.get_vm_status_by_uuid(uuid)=="Paused":
             return True
         else:
             return False

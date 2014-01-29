@@ -7,8 +7,11 @@
 import XenAPI
 import XenRemote
 from configobj import ConfigObj
-import pprint
 
+
+name = 'xenremote'
+version = '0.0.1'
+level = 'alpha'
 
 # Lese Konfiguration
 conf = ConfigObj("xenremote.conf")
@@ -28,6 +31,7 @@ while(True):
     if(action=='start'):
         remote.get_halted_vm_list()
         remote.get_suspended_vm_list()
+        remote.get_paused_vm_list()
         uuid = raw_input('uuid >> ')
         if(remote.start_vm_by_uuid(uuid)):
             print('vm started')
@@ -38,6 +42,7 @@ while(True):
     elif(action=='shutdown'):
         remote.get_running_vm_list()
         remote.get_suspended_vm_list()
+        remote.get_paused_vm_list()
         uuid = raw_input('uuid >> ')
         if(remote.shutdown_vm_by_uuid(uuid)):
             print('vm stopped')
@@ -77,7 +82,11 @@ while(True):
 
     # show help options
     elif(action=='help'):
-        print("XenRemote (C) 2014 W. Babernits <wbabernits@onenext.de>\n\navailable commands:\nstart, shutdown, suspend, status, help, exit\n")
+        print("XenRemote (C) 2014 W. Babernits <wbabernits@onenext.de>\n\navailable commands:\nstart, shutdown, suspend, status, help, version, exit\n")
+
+    # print xenremote version
+    elif(action=='version'):
+        print(name + "/" + version + "-" + level)
 
     # exit the program
     elif(action=='exit'):

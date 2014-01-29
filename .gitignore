@@ -1,0 +1,6 @@
+*.pyc
+/.idea/
+/samples/
+test.py
+xenenterpriseapi.pdf
+xenremote.conf

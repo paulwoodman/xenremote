@@ -28,15 +28,21 @@ while(True):
 
     # start a virtual machine
     if action=='start':
-        if remote.get_halted_vms() or remote.get_suspended_vms() or remote.get_paused_vms():
-            remote.get_halted_vms_list()
-            remote.get_suspended_vms_list()
-            remote.get_paused_vms_list()
+        if remote.get_stopped_vms():
+            remote.get_stopped_vms_list()
             uuid = raw_input('uuid >> ')
             if remote.start_vm_by_uuid(uuid):
                 print('vm started')
             else:
                 print('vm cannot be started')
+        else:
+            print('all vms running')
+
+    # start all virtual machines
+    if action=='startall':
+        if remote.get_stopped_vms():
+            remote.get_stopped_vms_list()
+            remote.start_vms()
         else:
             print('all vms running')
 
@@ -51,6 +57,16 @@ while(True):
                 print('vm stopped')
             else:
                 print('vm cannot be stopped')
+        else:
+            print('all vms halted')
+
+    # shutdown all virtual machines
+    elif action=='shutdownall':
+        if remote.get_running_vms() or remote.get_suspended_vms() or remote.get_paused_vms():
+            remote.get_running_vms_list()
+            remote.get_suspended_vms_list()
+            remote.get_paused_vms_list()
+            remote.shutdown_vms()
         else:
             print('all vms halted')
 
@@ -85,7 +101,7 @@ while(True):
     # show help options
     elif action=='help':
         print("XenRemote (C) 2014 W. Babernits <wbabernits@onenext.de>\n")
-        print("available commands:\nstart, shutdown, suspend, pause, status, help, version, exit\n")
+        print("available commands:\nstart, startall, shutdown, shutdownall, suspend, pause, status, help, version, exit\n")
 
     # print xenremote version
     elif action=='version':

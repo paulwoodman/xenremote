@@ -23,6 +23,18 @@ class Vmcontrol(object):
                 vmlist.append(record["uuid"] + " - " + record["name_label"] + " - " + record["power_state"])
         return vmlist
 
+    def get_active_vms(self, getuuid=False):
+        vms = self.session.xenapi.VM.get_all()
+        vmlist = []
+        for vm in vms:
+            record = self.session.xenapi.VM.get_record(vm)
+            if not record["is_a_template"] and not record["is_control_domain"] and (record["power_state"] == "Running" or record["power_state"] == "Suspended" or record["power_state"] == "Paused"):
+                if getuuid==False:
+                    vmlist.append(record["uuid"] + " - " + record["name_label"] + " - " + record["power_state"])
+                else:
+                    vmlist.append(record["uuid"])
+        return vmlist
+
     def get_running_vms_list(self):
         vms = self.get_running_vms()
         for vm in vms:
@@ -131,7 +143,7 @@ class Vmcontrol(object):
             return False
 
     def shutdown_vms(self):
-        uuids = self.get_running_vms(True)
+        uuids = self.get_active_vms(True)
         for uuid in uuids:
             vm = self.session.xenapi.VM.get_by_uuid(uuid)
             record = self.session.xenapi.VM.get_record(vm)

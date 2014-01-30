@@ -9,69 +9,80 @@ class Vmcontrol(object):
     def __init__(self, session):
         self.session = session
 
-    def get_vm_status_list(self):
-        """
-        Get current power_state and UUIDs of all VMs as a hr list
-        """
+    def get_vms_list(self):
+        vms = self.get_vms()
+        for vm in vms:
+            print(vm)
+
+    def get_vms(self):
         vms = self.session.xenapi.VM.get_all()
+        vmlist = []
         for vm in vms:
             record = self.session.xenapi.VM.get_record(vm)
             if not record["is_a_template"] and not record["is_control_domain"]:
-                print(record["uuid"] + " - " + record["name_label"] + " - " + record["power_state"])
+                vmlist.append(record["uuid"] + " - " + record["name_label"] + " - " + record["power_state"])
+        return vmlist
 
-    def get_running_vm_list(self):
-        """
-        Get running VMs as a hr list
-        """
+    def get_running_vms_list(self):
+        vms = self.get_running_vms()
+        for vm in vms:
+            print(vm)
+
+    def get_running_vms(self):
         vms = self.session.xenapi.VM.get_all()
+        vmlist = []
         for vm in vms:
             record = self.session.xenapi.VM.get_record(vm)
-            if (not record["is_a_template"] and not record["is_control_domain"]) and record["power_state"] == "Running":
-                print(record["uuid"] + " - " + record["name_label"] + " - " + record["power_state"])
+            if not record["is_a_template"] and not record["is_control_domain"] and record["power_state"] == "Running":
+                vmlist.append(record["uuid"] + " - " + record["name_label"] + " - " + record["power_state"])
+        return vmlist
 
-    def get_halted_vm_list(self):
-        """
-        Get halted VMs as a hr list
-        """
+    def get_halted_vms_list(self):
+        vms = self.get_halted_vms()
+        for vm in vms:
+            print(vm)
+
+    def get_halted_vms(self):
         vms = self.session.xenapi.VM.get_all()
+        vmlist = []
         for vm in vms:
             record = self.session.xenapi.VM.get_record(vm)
-            if (not record["is_a_template"] and not record["is_control_domain"]) and record["power_state"] == "Halted":
-                print(record["uuid"] + " - " + record["name_label"] + " - " + record["power_state"])
+            if not record["is_a_template"] and not record["is_control_domain"] and record["power_state"] == "Halted":
+                vmlist.append(record["uuid"] + " - " + record["name_label"] + " - " + record["power_state"])
+        return vmlist
 
-    def get_suspended_vm_list(self):
-        """
-        Get suspended VMs as a hr list
-        """
+    def get_suspended_vms_list(self):
+        vms = self.get_suspended_vms()
+        for vm in vms:
+            print(vm)
+
+    def get_suspended_vms(self):
         vms = self.session.xenapi.VM.get_all()
+        vmlist = []
         for vm in vms:
             record = self.session.xenapi.VM.get_record(vm)
-            if (not record["is_a_template"] and not record["is_control_domain"]) and record[
-                "power_state"] == "Suspended":
-                print(record["uuid"] + " - " + record["name_label"] + " - " + record["power_state"])
+            if not record["is_a_template"] and not record["is_control_domain"] and record["power_state"] == "Suspended":
+                vmlist.append(record["uuid"] + " - " + record["name_label"] + " - " + record["power_state"])
+        return vmlist
 
-    def get_paused_vm_list(self):
-        """
-        Get paused VMs as a hr list
-        """
+    def get_paused_vms_list(self):
+        vms = self.get_paused_vms()
+        for vm in vms:
+            print(vm)
+
+    def get_paused_vms(self):
         vms = self.session.xenapi.VM.get_all()
+        vmlist = []
         for vm in vms:
             record = self.session.xenapi.VM.get_record(vm)
-            if (not record["is_a_template"] and not record["is_control_domain"]) and record["power_state"] == "Paused":
-                print(record["uuid"] + " - " + record["name_label"] + " - " + record["power_state"])
+            if not record["is_a_template"] and not record["is_control_domain"] and record["power_state"] == "Paused":
+                vmlist.append(record["uuid"] + " - " + record["name_label"] + " - " + record["power_state"])
+        return vmlist
 
     def get_vm_status_by_uuid(self, uuid):
-        """
-        Returns the current power_state of a VM by UUID
-        """
         return self.session.xenapi.VM.get_power_state(self.session.xenapi.VM.get_by_uuid(uuid))
 
     def shutdown_vm_by_uuid(self, uuid):
-        """
-        Stops a VM
-        If a VM is paused or suspended it will
-        be set to unpause or resume first
-        """
         vm = self.session.xenapi.VM.get_by_uuid(uuid)
         record = self.session.xenapi.VM.get_record(vm)
         if record["power_state"] == "Suspended":
@@ -91,10 +102,6 @@ class Vmcontrol(object):
             return False
 
     def start_vm_by_uuid(self, uuid):
-        """
-        Starts a VM
-        This method also replaces unpause and resume
-        """
         vm = self.session.xenapi.VM.get_by_uuid(uuid)
         record = self.session.xenapi.VM.get_record(vm)
         if record["power_state"] == "Suspended":
@@ -110,9 +117,6 @@ class Vmcontrol(object):
             return False
 
     def suspend_vm_by_uuid(self, uuid):
-        """
-        Suspend a VM
-        """
         vm = self.session.xenapi.VM.get_by_uuid(uuid)
         record = self.session.xenapi.VM.get_record(vm)
         if record["power_state"] == "Running":
@@ -124,9 +128,6 @@ class Vmcontrol(object):
             return False
 
     def pause_vm_by_uuid(self, uuid):
-        """
-        Pause a VM
-        """
         vm = self.session.xenapi.VM.get_by_uuid(uuid)
         record = self.session.xenapi.VM.get_record(vm)
         if record["power_state"] == "Running":
@@ -141,7 +142,6 @@ class Vmcontrol(object):
             return False
 
 
-# For future purpose
 class Hostcontrol(object):
     def __init__(self, session):
         self.session = session

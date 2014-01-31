@@ -19,6 +19,7 @@ conf = ConfigObj("xenremote.conf")
 session = XenAPI.Session(conf["url"])
 session.xenapi.login_with_password(conf["user"], conf["pass"])
 remote = XenRemote.Vmcontrol(session)
+xshost = XenRemote.Hostcontrol(session)
 
 while(True):
     # interactive console

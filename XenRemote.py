@@ -159,9 +159,9 @@ class Vmcontrol(object):
                 self.session.xenapi.VM.clean_shutdown(vm)
 
             if self.get_vm_status_by_uuid(uuid) == "Halted":
-                print("VM " + uuid + " halted")
+                print("vm " + uuid + " halted")
             else:
-                print("VM " + uuid + " cannot be halted")
+                print("vm " + uuid + " cannot be halted")
 
     def start_vm_by_uuid(self, uuid):
         vm = self.session.xenapi.VM.get_by_uuid(uuid)
@@ -191,9 +191,9 @@ class Vmcontrol(object):
                 self.session.xenapi.VM.start(vm, False, True)
 
             if self.get_vm_status_by_uuid(uuid) == "Running":
-                print("VM " + uuid + " started")
+                print("vm " + uuid + " started")
             else:
-                print("VM " + uuid + " cannot be started")
+                print("vm " + uuid + " cannot be started")
 
     def suspend_vm_by_uuid(self, uuid):
         vm = self.session.xenapi.VM.get_by_uuid(uuid)

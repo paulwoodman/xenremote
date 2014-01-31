@@ -4,13 +4,14 @@
 #
 # (C) 2014 Wilhelm Babernits <wbabernits@onenext.de>
 
+import sys
 import XenAPI
 import XenRemote
 from configobj import ConfigObj
 
 
-name = 'xenremote'
-version = '0.0.1'
+name = 'XenRemote'
+version = '0.0.2'
 level = 'alpha'
 
 conf = ConfigObj("xenremote.conf")
@@ -29,11 +30,11 @@ while(True):
             remote.get_stopped_vms_list()
             uuid = raw_input('uuid >> ')
             if remote.start_vm_by_uuid(uuid):
-                print('vm started')
+                sys.stdout.write("vm started\n")
             else:
-                print('vm cannot be started')
+                sys.stderr.write("vm cannot be started\n")
         else:
-            print('all vms running')
+            sys.stderr.write("all vms running\n")
         continue
 
     # start all virtual machines
@@ -44,8 +45,7 @@ while(True):
             remote.get_stopped_vms_list()
             remote.start_vms()
         else:
-            print('all vms running')
-        continue
+            sys.stderr.write("all vms running\n")
 
     # shutdown a virtual machine
     elif action=='shutdown':
@@ -56,11 +56,11 @@ while(True):
             remote.get_paused_vms_list()
             uuid = raw_input('uuid >> ')
             if remote.shutdown_vm_by_uuid(uuid):
-                print('vm stopped')
+                sys.stdout.write("vm stopped\n")
             else:
-                print('vm cannot be stopped')
+                sys.stderr.write("vm cannot be stopped\n")
         else:
-            print('all vms halted')
+            sys.stderr.write("all vms halted\n")
         continue
 
     # shutdown all virtual machines
@@ -72,7 +72,6 @@ while(True):
             remote.shutdown_vms()
         else:
             print('all vms halted')
-        continue
 
     # suspend a virtual machine
     elif action=='suspend':
@@ -80,11 +79,11 @@ while(True):
             remote.get_running_vms_list()
             uuid = raw_input('uuid >> ')
             if remote.suspend_vm_by_uuid(uuid):
-                print('vm suspended')
+                sys.stdout.write("vm suspended\n")
             else:
-                print('vm cannot be suspended')
+                sys.stderr.write("vm cannot be suspended\n")
         else:
-            print('all vms halted, suspended or paused')
+            sys.stderr.write("all vms halted, suspended or paused\n")
         continue
 
     # pause a virtual machine
@@ -93,11 +92,11 @@ while(True):
             remote.get_running_vms_list()
             uuid = raw_input('uuid >> ')
             if remote.pause_vm_by_uuid(uuid):
-                print('vm paused')
+                sys.stdout.write("vm paused\n")
             else:
-                print('vm cannot be paused')
+                sys.stderr.write("vm cannot be paused\n")
         else:
-            print('all vms halted, suspended or paused')
+            sys.stderr.write("all vms halted, suspended or paused\n")
         continue
 
     # show the status of all virtual machines
@@ -106,8 +105,8 @@ while(True):
 
     # show help options
     elif action=='help':
-        print("XenRemote (C) 2014 W. Babernits <wbabernits@onenext.de>\n")
-        print("available commands:\nstart, startall, shutdown, shutdownall, suspend, pause, status, help, version, exit\n")
+        sys.stdout.write("XenRemote (C) 2014 W. Babernits <wbabernits@onenext.de>\n\n")
+        sys.stdout.write("available commands:\nstart, startall, shutdown, shutdownall, suspend, pause, status, help, version, exit\n\n")
 
     # print xenremote version
     elif action=='version':
@@ -115,9 +114,9 @@ while(True):
 
     # exit program
     elif action=='exit':
-        print('program terminated by user')
+        sys.stdout.write("terminated by user\n")
         exit()
 
     # unknown command
     else:
-        print('unknown command: type help for a list of available commands')
+        sys.stderr.write("unknown command: type help for a list of available commands\n")

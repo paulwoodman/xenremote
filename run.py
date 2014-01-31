@@ -19,9 +19,6 @@ session = XenAPI.Session(conf["url"])
 session.xenapi.login_with_password(conf["user"], conf["pass"])
 remote = XenRemote.Vmcontrol(session)
 
-#remote.get_running_vms_list()
-#exit()
-
 while(True):
     # interactive console
     action = raw_input('xenremote >> ')
@@ -37,17 +34,22 @@ while(True):
                 print('vm cannot be started')
         else:
             print('all vms running')
+        continue
 
     # start all virtual machines
     if action=='startall':
+        # we want to start all vms with this command even halted and paused ones
+        # so get_stopped_vms returns a list of all non-running vms
         if remote.get_stopped_vms():
             remote.get_stopped_vms_list()
             remote.start_vms()
         else:
             print('all vms running')
+        continue
 
     # shutdown a virtual machine
     elif action=='shutdown':
+        # we also want to clean shutdown running, paused and suspended machines
         if remote.get_running_vms() or remote.get_suspended_vms() or remote.get_paused_vms():
             remote.get_running_vms_list()
             remote.get_suspended_vms_list()
@@ -59,6 +61,7 @@ while(True):
                 print('vm cannot be stopped')
         else:
             print('all vms halted')
+        continue
 
     # shutdown all virtual machines
     elif action=='shutdownall':
@@ -69,6 +72,7 @@ while(True):
             remote.shutdown_vms()
         else:
             print('all vms halted')
+        continue
 
     # suspend a virtual machine
     elif action=='suspend':
@@ -81,6 +85,7 @@ while(True):
                 print('vm cannot be suspended')
         else:
             print('all vms halted, suspended or paused')
+        continue
 
     # pause a virtual machine
     elif action=='pause':
@@ -93,6 +98,7 @@ while(True):
                 print('vm cannot be paused')
         else:
             print('all vms halted, suspended or paused')
+        continue
 
     # show the status of all virtual machines
     elif action=='status':

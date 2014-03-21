@@ -17,7 +17,13 @@ level = 'alpha'
 conf = ConfigObj("xenremote.conf")
 
 session = XenAPI.Session(conf["url"])
-session.xenapi.login_with_password(conf["user"], conf["pass"])
+
+try:
+    session.xenapi.login_with_password(conf["user"], conf["pass"])
+except:
+    sys.stdout.write("Cannot connect to server\n")
+    exit()
+
 remote = XenRemote.Vmcontrol(session)
 xshost = XenRemote.Hostcontrol(session)
 

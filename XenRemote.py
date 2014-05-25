@@ -9,10 +9,14 @@ class Vmcontrol(object):
     def __init__(self, session):
         self.session = session
 
+    #def get_version(self):
+    #    version = self.session.xenapi.HOST.get_edition()
+    #    print(version)
+
     def get_vms_list(self):
         vms = self.get_vms()
         for vm in vms:
-            print(vm)            
+            print(vm)
 
     def get_vms(self):
         vms = self.session.xenapi.VM.get_all()

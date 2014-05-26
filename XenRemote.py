@@ -9,6 +9,13 @@ class Vmcontrol(object):
     def __init__(self, session):
         self.session = session
 
+    def get_host(self):
+        hosts = self.session.xenapi.host.get_all()
+        return hosts[0]
+
+    def get_dmesg(self):
+        return self.session.xenapi.host.dmesg(self.get_host())
+
     #def get_version(self):
     #    version = self.session.xenapi.HOST.get_edition()
     #    print(version)

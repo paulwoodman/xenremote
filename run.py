@@ -110,10 +110,14 @@ while(True):
     elif action=='status':
         remote.get_vms_list()
 
+    # get the host dmesg output
+    elif action=='dmesg':
+        print remote.get_dmesg()
+
     # show help options
     elif action=='help':
         sys.stdout.write("XenRemote (C) 2014 W. Babernits <wbabernits@onenext.de>\n\n")
-        sys.stdout.write("available commands:\nstart, startall, shutdown, shutdownall, suspend, pause, status, help, version, exit\n\n")
+        sys.stdout.write("available commands:\nstart, startall, shutdown, shutdownall, suspend, pause, status, dmesg, help, version, exit\n\n")
 
     # print xenremote version
     elif action=='version':

@@ -123,7 +123,7 @@ while(True):
     # print xenremote version
     elif action=='version':
         print("{0}/{1}-{2}".format(name, version, level))
-	    #remote.get_version()
+        remote.get_version()
 
     # exit program
     elif action=='exit':

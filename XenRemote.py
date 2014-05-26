@@ -16,9 +16,9 @@ class Vmcontrol(object):
     def get_dmesg(self):
         return self.session.xenapi.host.dmesg(self.get_host())
 
-    #def get_version(self):
-    #    version = self.session.xenapi.HOST.get_edition()
-    #    print(version)
+    def get_version(self):
+        version = self.session.xenapi.host.get_software_version(self.get_host())
+        print("XenServer/" + version['product_version'])
 
     def get_vms_list(self):
         vms = self.get_vms()

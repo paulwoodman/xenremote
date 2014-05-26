@@ -5,6 +5,7 @@
 # (C) 2014 Wilhelm Babernits <wbabernits@onenext.de>
 
 import sys
+import readline
 import XenAPI
 import XenRemote
 from configobj import ConfigObj

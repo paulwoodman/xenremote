@@ -55,6 +55,21 @@ while(True):
         else:
             sys.stderr.write("all vms running\n")
 
+    # get the status of a running virtual machine
+    elif action=='details':
+        # we also want to clean shutdown running, paused and suspended machines
+        if remote.get_running_vms():
+            remote.get_running_vms_list()
+            uuid = raw_input('uuid >> ')
+            print remote.get_vm_details_by_uuid(uuid)
+
+            #vmd = remote.get_vm_details_by_uuid(uuid)
+            #for key in vmd.keys():
+            #    print key
+        else:
+            sys.stderr.write("no running vm found\n")
+        continue
+
     # shutdown a virtual machine
     elif action=='shutdown':
         # we also want to clean shutdown running, paused and suspended machines

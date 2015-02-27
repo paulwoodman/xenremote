@@ -29,6 +29,18 @@ except:
 remote = XenRemote.Vmcontrol(session)
 xshost = XenRemote.Hostcontrol(session)
 
+commands = ['start', 'startall', 'shutdown', 'shutdownall', 'suspend', 'pause', 'status', 'dmesg', 'help', 'version', 'details', 'clear', 'exit']
+
+def completer(text, state):
+    options = [x for x in commands if x.startswith(text)]
+    try:
+        return options[state]
+    except IndexError:
+        return None
+
+readline.set_completer(completer)
+readline.parse_and_bind("tab: complete")
+
 while(True):
     # interactive console
     action = raw_input('xenremote >> ')

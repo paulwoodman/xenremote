@@ -13,8 +13,8 @@ from configobj import ConfigObj
 
 
 name = 'XenRemote'
-version = '0.0.2'
-level = 'alpha'
+version = '0.0.3'
+level = '1'
 
 conf = ConfigObj("xenremote.conf")
 
@@ -61,28 +61,24 @@ while(True):
 
     # get the status of a running virtual machine
     elif action=='details':
-        if remote.get_running_vms():
-            remote.get_running_vms_list()
-            uuid = raw_input('uuid >> ')
-            if not uuid:
-                sys.stderr.write("uuid missing\n")
-                continue
-            print remote.get_vm_details_by_uuid(uuid)
+        remote.get_vms_list()
+        uuid = raw_input('uuid >> ')
+        if not uuid:
+            sys.stderr.write("uuid missing\n")
+            continue
+        print remote.get_vm_details_by_uuid(uuid)
 
-            #vmd = remote.get_vm_details_by_uuid(uuid)
-            #for key in vmd.keys():
-            #    print key
-        else:
-            sys.stderr.write("no running vm found\n")
-        continue
+        #vmd = remote.get_vm_details_by_uuid(uuid)
+        #for key in vmd.keys():
+        #    print key
 
     # shutdown a virtual machine
     elif action=='shutdown':
         # we also want to clean shutdown running, paused and suspended machines
         if remote.get_running_vms() or remote.get_suspended_vms() or remote.get_paused_vms():
-            remote.get_running_vms_list()
             remote.get_suspended_vms_list()
             remote.get_paused_vms_list()
+            remote.get_running_vms_list()
             uuid = raw_input('uuid >> ')
             if not uuid:
                 sys.stderr.write("uuid missing\n")
@@ -98,9 +94,9 @@ while(True):
     # shutdown all virtual machines
     elif action=='shutdownall':
         if remote.get_running_vms() or remote.get_suspended_vms() or remote.get_paused_vms():
-            remote.get_running_vms_list()
             remote.get_suspended_vms_list()
             remote.get_paused_vms_list()
+            remote.get_running_vms_list()
             remote.shutdown_vms()
         else:
             print('all vms halted')

@@ -14,7 +14,7 @@ from configobj import ConfigObj
 
 name = 'XenRemote'
 version = '0.0.3'
-level = '1'
+release = '1'
 
 conf = ConfigObj("xenremote.conf")
 
@@ -144,7 +144,7 @@ while(True):
 
     # print xenremote version
     elif action=='version':
-        print("{0}/{1}-{2}".format(name, version, level))
+        print("{0}/{1}-{2}".format(name, version, release))
         remote.get_version()
 
     elif action=='clear':

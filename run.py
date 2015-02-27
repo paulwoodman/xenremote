@@ -39,7 +39,7 @@ while(True):
             remote.get_stopped_vms_list()
             uuid = raw_input('uuid >> ')
             if not uuid:
-                sys.stderr.write("uuid missing\n")
+                sys.stderr.write("missing uuid\n")
                 continue
             if remote.start_vm_by_uuid(uuid):
                 sys.stdout.write("vm started\n")
@@ -64,7 +64,7 @@ while(True):
         remote.get_vms_list()
         uuid = raw_input('uuid >> ')
         if not uuid:
-            sys.stderr.write("uuid missing\n")
+            sys.stderr.write("missing uuid\n")
             continue
         print remote.get_vm_details_by_uuid(uuid)
 
@@ -77,7 +77,7 @@ while(True):
             remote.get_running_vms_list()
             uuid = raw_input('uuid >> ')
             if not uuid:
-                sys.stderr.write("uuid missing\n")
+                sys.stderr.write("missing uuid\n")
                 continue
             if remote.shutdown_vm_by_uuid(uuid):
                 sys.stdout.write("vm stopped\n")
@@ -103,7 +103,7 @@ while(True):
             remote.get_running_vms_list()
             uuid = raw_input('uuid >> ')
             if not uuid:
-                sys.stderr.write("uuid missing\n")
+                sys.stderr.write("missing uuid\n")
                 continue
             if remote.suspend_vm_by_uuid(uuid):
                 sys.stdout.write("vm suspended\n")
@@ -119,7 +119,7 @@ while(True):
             remote.get_running_vms_list()
             uuid = raw_input('uuid >> ')
             if not uuid:
-                sys.stderr.write("uuid missing\n")
+                sys.stderr.write("missing uuid\n")
                 continue
             if remote.pause_vm_by_uuid(uuid):
                 sys.stdout.write("vm paused\n")
@@ -139,7 +139,7 @@ while(True):
 
     # show help options
     elif action=='help':
-        sys.stdout.write("XenRemote CLI (C) 2014-2015 W. Babernits <wbabernits@onenext.de>\n\n")
+        sys.stdout.write(name + " CLI (C) 2014-2015 W. Babernits <wbabernits@onenext.de>\n\n")
         sys.stdout.write("available commands:\nstart, startall, shutdown, shutdownall, suspend, pause, status, dmesg, help, version, exit\n\n")
 
     # print xenremote version

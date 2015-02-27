@@ -8,6 +8,7 @@ import sys
 import readline
 import XenAPI
 import XenRemote
+from subprocess import call
 from configobj import ConfigObj
 
 
@@ -37,6 +38,9 @@ while(True):
         if remote.get_stopped_vms():
             remote.get_stopped_vms_list()
             uuid = raw_input('uuid >> ')
+            if not uuid:
+                sys.stderr.write("uuid missing\n")
+                continue
             if remote.start_vm_by_uuid(uuid):
                 sys.stdout.write("vm started\n")
             else:
@@ -57,10 +61,12 @@ while(True):
 
     # get the status of a running virtual machine
     elif action=='details':
-        # we also want to clean shutdown running, paused and suspended machines
         if remote.get_running_vms():
             remote.get_running_vms_list()
             uuid = raw_input('uuid >> ')
+            if not uuid:
+                sys.stderr.write("uuid missing\n")
+                continue
             print remote.get_vm_details_by_uuid(uuid)
 
             #vmd = remote.get_vm_details_by_uuid(uuid)
@@ -78,6 +84,9 @@ while(True):
             remote.get_suspended_vms_list()
             remote.get_paused_vms_list()
             uuid = raw_input('uuid >> ')
+            if not uuid:
+                sys.stderr.write("uuid missing\n")
+                continue
             if remote.shutdown_vm_by_uuid(uuid):
                 sys.stdout.write("vm stopped\n")
             else:
@@ -101,6 +110,9 @@ while(True):
         if remote.get_running_vms():
             remote.get_running_vms_list()
             uuid = raw_input('uuid >> ')
+            if not uuid:
+                sys.stderr.write("uuid missing\n")
+                continue
             if remote.suspend_vm_by_uuid(uuid):
                 sys.stdout.write("vm suspended\n")
             else:
@@ -114,6 +126,9 @@ while(True):
         if remote.get_running_vms():
             remote.get_running_vms_list()
             uuid = raw_input('uuid >> ')
+            if not uuid:
+                sys.stderr.write("uuid missing\n")
+                continue
             if remote.pause_vm_by_uuid(uuid):
                 sys.stdout.write("vm paused\n")
             else:
@@ -139,6 +154,9 @@ while(True):
     elif action=='version':
         print("{0}/{1}-{2}".format(name, version, level))
         remote.get_version()
+
+    elif action=='clear':
+        call(["clear"])
 
     # exit program
     elif action=='exit':

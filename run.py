@@ -68,10 +68,6 @@ while(True):
             continue
         print remote.get_vm_details_by_uuid(uuid)
 
-        #vmd = remote.get_vm_details_by_uuid(uuid)
-        #for key in vmd.keys():
-        #    print key
-
     # shutdown a virtual machine
     elif action=='shutdown':
         # we also want to clean shutdown running, paused and suspended machines
@@ -143,7 +139,7 @@ while(True):
 
     # show help options
     elif action=='help':
-        sys.stdout.write("XenRemote (C) 2014 W. Babernits <wbabernits@onenext.de>\n\n")
+        sys.stdout.write("XenRemote CLI (C) 2014-2015 W. Babernits <wbabernits@onenext.de>\n\n")
         sys.stdout.write("available commands:\nstart, startall, shutdown, shutdownall, suspend, pause, status, dmesg, help, version, exit\n\n")
 
     # print xenremote version

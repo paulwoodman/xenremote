@@ -134,15 +134,14 @@ class Vmcontrol(object):
     def get_vm_status_by_uuid(self, uuid):
         return self.session.xenapi.VM.get_power_state(self.session.xenapi.VM.get_by_uuid(uuid))
 
+    # experimental
     def get_vm_details_by_uuid(self, uuid):
         vmref = self.session.xenapi.VM.get_guest_metrics(self.session.xenapi.VM.get_by_uuid(uuid))
-        return self.session.xenapi.VM_guest_metrics.get_live(vmref)
-        return self.session.xenapi.VM_guest_metrics.get_networks(vmref)
-        return self.session.xenapi.VM_guest_metrics.get_memory(vmref)
+        print "Networking"
         try:
             os = self.session.xenapi.VM_guest_metrics.get_networks(vmref)
             if "0/ip" in os.keys():
-                return os["0/ip"]
+                return "  IP address: " + os["0/ip"]
             return None
         except:
             return None

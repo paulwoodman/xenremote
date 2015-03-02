@@ -12,6 +12,18 @@ from subprocess import call
 from configobj import ConfigObj
 
 
+class color:
+   PURPLE = '\033[95m'
+   CYAN = '\033[96m'
+   DARKCYAN = '\033[36m'
+   BLUE = '\033[94m'
+   GREEN = '\033[92m'
+   YELLOW = '\033[93m'
+   RED = '\033[91m'
+   BOLD = '\033[1m'
+   UNDERLINE = '\033[4m'
+   END = '\033[0m'
+
 name = 'XenRemote'
 version = '0.0.3'
 release = '1'
@@ -43,22 +55,22 @@ readline.parse_and_bind("tab: complete")
 
 while(True):
     # interactive console
-    action = raw_input('xenremote >> ')
+    action = raw_input(color.BLUE + 'xenremote >> ' + color.END)
 
     # start a virtual machine
     if action=='start':
         if remote.get_stopped_vms():
             remote.get_stopped_vms_list()
-            uuid = raw_input('uuid >> ')
+            uuid = raw_input(color.BLUE + 'uuid >> ' + color.END)
             if not uuid:
-                sys.stderr.write("missing uuid\n")
+                sys.stderr.write(color.RED + "missing uuid\n" + color.END)
                 continue
             if remote.start_vm_by_uuid(uuid):
-                sys.stdout.write("vm started\n")
+                sys.stdout.write(color.GREEN + "vm started\n" + color.END)
             else:
-                sys.stderr.write("vm cannot be started\n")
+                sys.stderr.write(color.RED + "vm cannot be started\n" + color.END)
         else:
-            sys.stderr.write("all vms running\n")
+            sys.stderr.write(color.YELLOW + "all vms running\n" + color.END)
         continue
 
     # start all virtual machines
@@ -69,14 +81,15 @@ while(True):
             remote.get_stopped_vms_list()
             remote.start_vms()
         else:
-            sys.stderr.write("all vms running\n")
+            sys.stderr.write(color.YELLOW + "all vms running\n" + color.END)
 
     # get the status of a running virtual machine
     elif action=='details':
+        # details should be available for all vms so we can easily use get_vms_list here
         remote.get_vms_list()
-        uuid = raw_input('uuid >> ')
+        uuid = raw_input(color.BLUE + 'uuid >> ' + color.END)
         if not uuid:
-            sys.stderr.write("missing uuid\n")
+            sys.stderr.write(color.RED + "missing uuid\n" + color.END)
             continue
         print remote.get_vm_details_by_uuid(uuid)
 
@@ -87,16 +100,16 @@ while(True):
             remote.get_suspended_vms_list()
             remote.get_paused_vms_list()
             remote.get_running_vms_list()
-            uuid = raw_input('uuid >> ')
+            uuid = raw_input(color.BLUE + 'uuid >> ' + color.END)
             if not uuid:
-                sys.stderr.write("missing uuid\n")
+                sys.stderr.write(color.RED + "missing uuid\n" + color.END)
                 continue
             if remote.shutdown_vm_by_uuid(uuid):
-                sys.stdout.write("vm stopped\n")
+                sys.stdout.write(color.GREEN + "vm stopped\n" + color.END)
             else:
-                sys.stderr.write("vm cannot be stopped\n")
+                sys.stderr.write(color.RED + "vm cannot be stopped\n" + color.END)
         else:
-            sys.stderr.write("all vms halted\n")
+            sys.stderr.write(color.YELLOW + "all vms halted\n" + color.END)
         continue
 
     # shutdown all virtual machines
@@ -107,38 +120,38 @@ while(True):
             remote.get_running_vms_list()
             remote.shutdown_vms()
         else:
-            print('all vms halted')
+            print(color.YELLOW + 'all vms halted' + color.END)
 
     # suspend a virtual machine
     elif action=='suspend':
         if remote.get_running_vms():
             remote.get_running_vms_list()
-            uuid = raw_input('uuid >> ')
+            uuid = raw_input(color.BLUE + 'uuid >> ' + color.END)
             if not uuid:
-                sys.stderr.write("missing uuid\n")
+                sys.stderr.write(color.RED + "missing uuid\n" + color.END)
                 continue
             if remote.suspend_vm_by_uuid(uuid):
-                sys.stdout.write("vm suspended\n")
+                sys.stdout.write(color.GREEN + "vm suspended\n" + color.END)
             else:
-                sys.stderr.write("vm cannot be suspended\n")
+                sys.stderr.write(color.RED + "vm cannot be suspended\n" + color.END)
         else:
-            sys.stderr.write("all vms halted, suspended or paused\n")
+            sys.stderr.write(color.YELLOW + "all vms halted, suspended or paused\n" + color.END)
         continue
 
     # pause a virtual machine
     elif action=='pause':
         if remote.get_running_vms():
             remote.get_running_vms_list()
-            uuid = raw_input('uuid >> ')
+            uuid = raw_input(color.BLUE + 'uuid >> ' + color.END)
             if not uuid:
-                sys.stderr.write("missing uuid\n")
+                sys.stderr.write(color.RED + "missing uuid\n" + color.END)
                 continue
             if remote.pause_vm_by_uuid(uuid):
-                sys.stdout.write("vm paused\n")
+                sys.stdout.write(color.GREEN + "vm paused\n" + color.END)
             else:
-                sys.stderr.write("vm cannot be paused\n")
+                sys.stderr.write(color.RED + "vm cannot be paused\n" + color.END)
         else:
-            sys.stderr.write("all vms halted, suspended or paused\n")
+            sys.stderr.write(color.YELLOW + "all vms halted, suspended or paused\n" + color.END)
         continue
 
     # show the status of all virtual machines

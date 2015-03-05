@@ -8,24 +8,15 @@ import sys
 import readline
 import XenAPI
 import XenRemote
-
-# unused at the moment
-#import argparse
-
 from subprocess import call
 from configobj import ConfigObj
 
 
 class color:
-   PURPLE = '\033[95m'
-   CYAN = '\033[96m'
-   DARKCYAN = '\033[36m'
    BLUE = '\033[94m'
    GREEN = '\033[92m'
    YELLOW = '\033[93m'
    RED = '\033[91m'
-   BOLD = '\033[1m'
-   UNDERLINE = '\033[4m'
    END = '\033[0m'
 
 name = 'XenRemote'
@@ -45,6 +36,7 @@ except:
 remote = XenRemote.Vmcontrol(session)
 xshost = XenRemote.Hostcontrol(session)
 
+# tab completion
 commands = ['start', 'startall', 'shutdown', 'shutdownall', 'suspend', 'pause', 'status', 'dmesg', 'help', 'version', 'details', 'clear', 'exit']
 
 def completer(text, state):
@@ -57,6 +49,7 @@ def completer(text, state):
 readline.set_completer(completer)
 readline.parse_and_bind("tab: complete")
 
+# loop
 while(True):
     # interactive console
     action = raw_input(color.BLUE + 'xenremote >> ' + color.END)
@@ -99,7 +92,7 @@ while(True):
 
     # shutdown a virtual machine
     elif action=='shutdown':
-        # we also want to clean shutdown running, paused and suspended machines
+        # clean shutdown of running, paused and suspended machines
         if remote.get_running_vms() or remote.get_suspended_vms() or remote.get_paused_vms():
             remote.get_suspended_vms_list()
             remote.get_paused_vms_list()
@@ -170,8 +163,7 @@ while(True):
     elif action=='help':
         sys.stdout.write(name + " CLI (C) 2014-2015 W. Babernits <wbabernits@onenext.de>\n\n")
         sys.stdout.write("available commands:\n\n")
-        commands = sorted(commands)
-        for command in commands:
+        for command in sorted(commands):
             sys.stdout.write("  " + command + "\n")
         sys.stdout.write("\n")
 

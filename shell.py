@@ -46,13 +46,13 @@ readline.parse_and_bind("tab: complete")
 # loop
 while(True):
     # interactive console
-    action = raw_input(colored('xenremote >> ', 'cyan'))
+    action = raw_input(colored("xenremote >> ", "cyan"))
 
     # start a virtual machine
     if action=='start':
         if remote.get_stopped_vms():
             remote.get_stopped_vms_list()
-            uuid = raw_input(colored('uuid >> ', 'cyan'))
+            uuid = raw_input(colored("uuid >> ", "cyan"))
             if not uuid:
                 sys.stderr.write(colored("missing uuid\n", "red"))
                 continue
@@ -78,7 +78,7 @@ while(True):
     elif action=='details':
         # details should be available for all vms so we can easily use get_vms_list here
         remote.get_vms_list()
-        uuid = raw_input(colored('uuid >> ', 'cyan'))
+        uuid = raw_input(colored("uuid >> ", "cyan"))
         if not uuid:
             sys.stderr.write(colored("missing uuid\n", "red"))
             continue
@@ -91,7 +91,7 @@ while(True):
             remote.get_suspended_vms_list()
             remote.get_paused_vms_list()
             remote.get_running_vms_list()
-            uuid = raw_input(colored('uuid >> ', 'cyan'))
+            uuid = raw_input(colored("uuid >> ", "cyan"))
             if not uuid:
                 sys.stderr.write(colored("missing uuid\n", "red"))
                 continue
@@ -111,13 +111,13 @@ while(True):
             remote.get_running_vms_list()
             remote.shutdown_vms()
         else:
-            print(colored('all vms halted', 'yellow'))
+            sys.stderr.write(colored("all vms halted\n", "yellow"))
 
     # suspend a virtual machine
     elif action=='suspend':
         if remote.get_running_vms():
             remote.get_running_vms_list()
-            uuid = raw_input(colored('uuid >> ', 'cyan'))
+            uuid = raw_input(colored("uuid >> ", "cyan"))
             if not uuid:
                 sys.stderr.write(colored("missing uuid\n", "red"))
                 continue
@@ -133,7 +133,7 @@ while(True):
     elif action=='pause':
         if remote.get_running_vms():
             remote.get_running_vms_list()
-            uuid = raw_input(colored('uuid >> ', 'cyan'))
+            uuid = raw_input(colored("uuid >> ", "cyan"))
             if not uuid:
                 sys.stderr.write(colored("missing uuid\n", "red"))
                 continue
